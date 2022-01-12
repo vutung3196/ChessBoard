@@ -3,58 +3,59 @@
     public static class ChessBoard {
         public static bool KnightChessBoardBackTrackingAlgorithm()
         {
-            int[,] solution = new int[Constant.SIZE, Constant.SIZE];
+            int[,] solution = new int[Constant.CHESS_BOARD_SIZE, Constant.CHESS_BOARD_SIZE];
 
-            for (int x = 0; x < Constant.SIZE; x++)
+            for (int x = 0; x < Constant.CHESS_BOARD_SIZE; x++)
             {
-                for (int y = 0; y < Constant.SIZE; y++)
+                for (int y = 0; y < Constant.CHESS_BOARD_SIZE; y++)
                 {
                     solution[x, y] = -1;
                 }
             }
 
-            int[] xMove = { 2, 1, -1, -2, -2, -1, 1, 2 };
-            int[] yMove = { 1, 2, 2, 1, -1, -2, -2, -1 };
+            int[] xCoordinateMoves = { 2, 1, -1, -2, -2, -1, 1, 2 };
+            int[] yCoordinateMoves = { 1, 2, 2, 1, -1, -2, -2, -1 };
 
             solution[0, 0] = 0;
 
-            if (!RecursiveKnightChessBoard(0, 0, 1, solution, xMove, yMove))
+            if (!RecursiveKnightChessBoard(0, 0, 1, solution, xCoordinateMoves, yCoordinateMoves))
             {
                 return false;
             } else
             {
                 Console.WriteLine("The solution is: ");
-                for (int x = 0; x < Constant.SIZE; x++)
+                for (int x = 0; x < Constant.CHESS_BOARD_SIZE; x++)
                 {
-                    for (int y = 0; y < Constant.SIZE; y++)
+                    for (int y = 0; y < Constant.CHESS_BOARD_SIZE; y++) 
                         Console.Write(solution[x, y] + " ");
                     Console.WriteLine();
                 }
+                return true;
             }
-
-            return true;
         }
 
-        private static bool RecursiveKnightChessBoard(int x, int y, int movei, int[, ] solution, int[] xMove, int[] yMove)
+        private static bool RecursiveKnightChessBoard(int x, int y, int movingValue, int[, ] solution, int[] xCoordinateMoves, int[] yCoordinateMoves)
         {
-            int k, next_x, next_y;
-            if (movei == Constant.SIZE * Constant.SIZE)
+            int k, nextXValue, nextYValue;
+
+            // Reaching the end
+            if (movingValue == Constant.CHESS_BOARD_SIZE * Constant.CHESS_BOARD_SIZE)
             {
                 return true;
             }
-            for (k = 0; k < Constant.SIZE; k++)
+            for (k = 0; k < Constant.CHESS_BOARD_SIZE; k++)
             {
-                next_x = x + xMove[k];
-                next_y = y + yMove[k];
-                if (IsValid(next_x, next_y, solution))
+                nextXValue = x + xCoordinateMoves[k];
+                nextYValue = y + yCoordinateMoves[k];
+                if (IsValid(nextXValue, nextYValue, solution))
                 {
-                    solution[next_x, next_y] = movei;
-                    if (RecursiveKnightChessBoard(next_x, next_y, movei + 1, solution, xMove, yMove))
+                    solution[nextXValue, nextYValue] = movingValue;
+                    if (RecursiveKnightChessBoard(nextXValue, nextYValue, movingValue + 1, solution, xCoordinateMoves, yCoordinateMoves))
                     {
                         return true;
                     } else
                     {
-                        solution[next_x, next_y] = -1;
+                        solution[nextXValue, nextYValue] = -1;
                     }
                 }
             }
@@ -63,7 +64,7 @@
         
         private static bool IsValid(int x, int y, int[, ] solution)
         {
-            if (x >= 0 && x < Constant.SIZE && y >= 0 && y < Constant.SIZE && solution[x, y] == -1)
+            if (x >= 0 && x < Constant.CHESS_BOARD_SIZE && y >= 0 && y < Constant.CHESS_BOARD_SIZE && solution[x, y] == -1)
             {
                 return true;
             }

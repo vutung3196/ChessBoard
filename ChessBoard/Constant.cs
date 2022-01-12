@@ -2,6 +2,6 @@
 {
     public static class Constant
     {
-        public const int SIZE = 8;
+        public const int CHESS_BOARD_SIZE = 8;
     }
 }
